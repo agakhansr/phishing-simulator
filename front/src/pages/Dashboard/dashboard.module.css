@@ -87,7 +87,7 @@ h2 {
   font-size: 1rem;
   margin-right: 1rem;
 }
-.inputContainer textarea {
+.dropdown {
   width: 100%;
   font-family: sans-serif;
   padding: 10px 20px;
@@ -97,6 +97,7 @@ h2 {
   font-size: 1rem;
   margin-right: 1rem;
 }
+
 .sendButton {
   background: #3498db;
   border: 1px solid #444;

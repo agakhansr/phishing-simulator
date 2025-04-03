@@ -6,7 +6,7 @@ interface PhishingAttempt {
   id: number;
   email: string;
   status: string;
-  content: string; // Add content field
+  content: string; 
 }
 
 const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
@@ -66,12 +66,16 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <textarea
-            required
-            placeholder="Enter content"
+          <select
+            name="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-          ></textarea>
+            className={styles.dropdown} 
+          >
+            <option value="">Select content</option>
+            <option value="account-verification">Account Verification</option>
+            <option value="password-reset">Password Reset</option>
+          </select>
 
           <button type="submit" className={styles.sendButton}>
             Send
