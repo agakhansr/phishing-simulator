@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./notification.module.css";
+import { NotificationProps } from "../types/types";
 
-interface NotificationProps {
-  message: string;
-  onClose: () => void;
-}
+
 
 const Notification: React.FC<NotificationProps> = ({ message, onClose }) => {
   const [show, setShow] = useState(false);

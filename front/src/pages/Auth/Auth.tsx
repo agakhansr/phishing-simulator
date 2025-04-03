@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styles from "./auth.module.css";
+import { register, login } from "../../services/authService";
+
 
 const AuthPage = ({ onLogin }: { onLogin: () => void }) => {
   const [email, setEmail] = useState("");
@@ -7,19 +9,20 @@ const AuthPage = ({ onLogin }: { onLogin: () => void }) => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isRegister) {
-      localStorage.setItem(email, password);
-      alert("Registration successful! You can now log in.");
-      setIsRegister(false);
-    } else {
-      if (email === "test@mail.com" && password === "test") {
-        localStorage.setItem("token", "fake-jwt-token");
-        onLogin();
+
+    try {
+      if (isRegister) {
+        await register(email, password);
+        setIsRegister(false);
       } else {
-        setError("Login failed. Check your credentials.");
+        const data = await login(email, password);
+        localStorage.setItem("token", data.token);
+        onLogin();
       }
+    } catch (error) {
+      setError("Request failed. Check your credentials.");
     }
   };
 

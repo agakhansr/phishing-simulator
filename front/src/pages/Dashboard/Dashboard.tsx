@@ -1,53 +1,54 @@
 import { useEffect, useState } from "react";
 import styles from "./dashboard.module.css";
 import Notification from "../../components/Notification";
+import { getPhishingAttempts, sendPhishingEmail } from "../../services/phishingService";
+import { PhishingAttempt } from "../../types/types";
 
-interface PhishingAttempt {
-  id: number;
-  email: string;
-  status: string;
-  content: string; 
-}
 
 const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
   const [attempts, setAttempts] = useState<PhishingAttempt[]>([]);
   const [email, setEmail] = useState<string>("");
-  const [content, setContent] = useState<string>("");
+  const [templateId, setTemplateId] = useState<string>("");
   const [notification, setNotification] = useState<string>("");
 
   useEffect(() => {
-    // Fake data
-    const fakeData: PhishingAttempt[] = [
-      {
-        id: 1,
-        email: "user1@example.com",
-        status: "2",
-        content: "Phishing email content 1",
-      },
-      {
-        id: 2,
-        email: "user2@example.com",
-        status: "1",
-        content: "Phishing email content 2",
-      },
-      {
-        id: 3,
-        email: "user3@example.com",
-        status: "3",
-        content: "Phishing email content 3",
-      },
-    ];
-    setAttempts(fakeData);
+    const fetchAttempts = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const data = await getPhishingAttempts(token);
+          setAttempts(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch phishing attempts:", error);
+      }
+    };
+
+    fetchAttempts();
   }, []);
 
-  const handleSendMail = (e: React.FormEvent) => {
+  const handleSendMail = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Fake sending mail
-    setTimeout(() => {
-      setNotification(`Phishing message sent to ${email}`);
-      setEmail("");
-      setContent("");
-    }, 1000);
+    const token = localStorage.getItem("token"); 
+  
+    try {
+      if (token) {
+        await sendPhishingEmail(token, email, templateId);
+        setNotification(`Phishing message sent to ${email}`);
+        setEmail("");
+        setTemplateId("");
+      }
+      
+    } catch (error) {
+      console.error("Failed to send phishing message:", error);
+      setNotification("Failed to send phishing message");
+    }
+finally {
+  setAttempts((prevAttempts) => [
+    ...prevAttempts,
+    { _id: "", email, templateId, status: "sent", trackingId: "", createdAt: "", updatedAt: "", __v: 0 },
+  ]);
+}
   };
 
   const handleCloseNotification = () => {
@@ -58,6 +59,7 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
     <div className={styles.dashboardContainer}>
       <div className={styles.dashboardBox}>
         <h2>Phishing Attempts</h2>
+       
         <form onSubmit={handleSendMail} className={styles.inputContainer}>
           <input
             type="email"
@@ -67,9 +69,9 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <select
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            name="templateId"
+            value={templateId}
+            onChange={(e) => setTemplateId(e.target.value)}
             className={styles.dropdown} 
           >
             <option value="">Select content</option>
@@ -90,7 +92,6 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Email</th>
               <th>Status</th>
               <th>Content</th>
@@ -98,29 +99,27 @@ const Dashboard = ({ onLogout }: { onLogout: () => void }) => {
           </thead>
           <tbody>
             {attempts.map((attempt) => (
-              <tr key={attempt.id}>
-                <td>{attempt.id}</td>
+              <tr key={attempt._id}>
                 <td>{attempt.email}</td>
                 <td
                   className={
-                    attempt.status === "1"
+                    attempt.status === "clicked"
                       ? styles.statusClicked
-                      : attempt.status === "2"
+                      : attempt.status === "sent"
                       ? styles.statusNotClicked
-                      : styles.reviewed
+                      : styles.statusFailed
                   }
                 >
-                  {attempt.status === "1"
-                    ? "Clicked"
-                    : attempt.status === "2"
-                    ? "Not Clicked"
-                    : "Email sent"}
+                  {attempt.status}
                 </td>
-                <td>{attempt.content}</td>
+                <td>{attempt.templateId}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        <button onClick={onLogout} className={styles.logoutButton}>
+          Logout
+        </button>
       </div>
     </div>
   );
