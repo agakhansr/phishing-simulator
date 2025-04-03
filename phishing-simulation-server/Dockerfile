@@ -5,7 +5,10 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install -f
 
+
 COPY . .
+
+RUN npm run build
 
 EXPOSE 3001
 
