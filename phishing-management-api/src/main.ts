@@ -28,6 +28,10 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Phishing Management API')
     .setVersion('1.0')
+    .addSecurity('jwt', {
+      type: 'http',
+      scheme: 'bearer',
+    })
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, documentFactory);
