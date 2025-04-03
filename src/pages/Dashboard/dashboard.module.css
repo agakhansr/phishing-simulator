@@ -1,0 +1,109 @@
+.dashboardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1e1e2f;
+}
+
+.dashboardBox {
+  background: #2a2a3c;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: #ffffff;
+  width: 480px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.logoutButton {
+  background: #e74c3c;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: background 0.3s ease;
+}
+
+.logoutButton:hover {
+  background: #c0392b;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #444;
+}
+
+.table th {
+  background: #3a3a50;
+  color: #ffffff;
+}
+
+.table tr:hover {
+  background: #3f3f57;
+}
+
+.statusClicked {
+  color: #2ecc71;
+}
+
+.statusPending {
+  color: #f1c40f;
+}
+
+.statusNotClicked {
+  color: #e74c3c;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.inputContainer input {
+  width: 100%;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #444;
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+.inputContainer textarea {
+  width: 100%;
+  font-family: sans-serif;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #444;
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+.sendButton {
+  background: #3498db;
+  border: 1px solid #444;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin: 10px 0;
+  cursor: pointer;
+  font-size: 1rem;
+}
