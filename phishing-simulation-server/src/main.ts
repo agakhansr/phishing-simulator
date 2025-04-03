@@ -10,11 +10,7 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
 
   app.use(helmet());
-  app.enableCors({
-    origin: process.env.CORS_ORIGIN,
-    methods: 'GET,HEAD,POST',
-    credentials: true,
-  });
+  app.enableCors();
 
   app.useGlobalPipes(
     new ValidationPipe({
