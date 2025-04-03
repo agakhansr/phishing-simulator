@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from './config/config.service';
 import helmet from 'helmet';
 import * as compression from 'compression';
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,6 +24,13 @@ async function bootstrap() {
   );
 
   app.setGlobalPrefix('api/v1');
+
+  const config = new DocumentBuilder()
+    .setTitle('Phishing Management API')
+    .setVersion('1.0')
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, documentFactory);
 
   const port = configService.get('PORT') || 3000;
   await app.listen(port);
