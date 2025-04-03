@@ -13,7 +13,11 @@ async function bootstrap() {
 
   app.use(helmet());
   app.use(compression());
-  app.enableCors();
+  app.enableCors({
+    origin: configService.get('CORS_ORIGIN'),
+    methods: 'GET,HEAD,POST',
+    credentials: true,
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
