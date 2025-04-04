@@ -1,12 +1,17 @@
 import { Controller, Post, Body, Get, Param, Logger } from '@nestjs/common';
 import { PhishingService } from './phishing.service';
 import { SendPhishingDto } from './dto/send-phishing.dto';
+import { EventsGateway } from '../shared/gateways/events.gateway';
+import { PhishingAttemptStatus } from './schemas/phishing-attempt.schema';
 
 @Controller('phishing')
 export class PhishingController {
   private readonly logger = new Logger(PhishingController.name);
 
-  constructor(private readonly phishingService: PhishingService) {}
+  constructor(
+    private readonly eventsGateway: EventsGateway,
+    private readonly phishingService: PhishingService,
+  ) {}
 
   @Post('send')
   async sendPhishingEmail(@Body() sendPhishingDto: SendPhishingDto) {
@@ -23,6 +28,10 @@ export class PhishingController {
   async trackClick(@Param('trackingId') trackingId: string) {
     this.logger.log(`Phishing link clicked for tracking ID: ${trackingId}`);
     await this.phishingService.recordClick(trackingId);
+    this.eventsGateway.notifyDataChange(
+      'string',
+      PhishingAttemptStatus.CLICKED,
+    );
     return { message: 'This was a phishing simulation test' };
   }
 }

@@ -8,6 +8,7 @@ import {
   PhishingAttemptSchema,
 } from './schemas/phishing-attempt.schema';
 import { ConfigModule } from '@nestjs/config';
+import { EventsGateway } from '../shared/gateways/events.gateway';
 
 @Module({
   imports: [
@@ -17,6 +18,6 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule,
   ],
   controllers: [PhishingController],
-  providers: [PhishingService, EmailService],
+  providers: [PhishingService, EmailService, EventsGateway],
 })
 export class PhishingModule {}
