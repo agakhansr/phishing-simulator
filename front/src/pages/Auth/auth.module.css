@@ -3,14 +3,14 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #1e1e2f;
+  background-color: #f5f5f5;
 }
 
 .authBox {
-  background: #2a2a3c;
+  background-color: white;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   color: #ffffff;
   width: 320px;
@@ -19,6 +19,7 @@
 h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
+  color: #4a90e2;
 }
 
 .error {
@@ -37,8 +38,7 @@ h2 {
   padding: 12px;
   border: 1px solid #444;
   border-radius: 6px;
-  background: #3a3a50;
-  color: #ffffff;
+  color: #000;
   font-size: 1rem;
 }
 

@@ -3,7 +3,6 @@ import styles from "./notification.module.css";
 import { NotificationProps } from "../types/types";
 
 
-
 const Notification: React.FC<NotificationProps> = ({ message, onClose }) => {
   const [show, setShow] = useState(false);
   const [hide, setHide] = useState(false);
@@ -12,9 +11,9 @@ const Notification: React.FC<NotificationProps> = ({ message, onClose }) => {
     setShow(true);
 
     const timer = setTimeout(() => {
-      setHide(true); 
-      setTimeout(onClose, 500); 
-    }, 3000); 
+      setHide(true);
+      setTimeout(onClose, 500);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [onClose]);
