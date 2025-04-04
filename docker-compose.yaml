@@ -48,9 +48,9 @@ services:
       SMTP_HOST: smtp.gmail.com
       SMTP_PORT: 465
       SMTP_SECURE: false
-      SMTP_USER: ilkinnetflix123@gmail.com
-      SMTP_PASSWORD: kaprpabvjcjserfh
-      EMAIL_FROM: ilkinnetflix123@gmail.com
+      SMTP_USER: blackenedrussian20@gmail.com
+      SMTP_PASSWORD: xqvzodcxjvjlocbs
+      EMAIL_FROM: blackenedrussian20@gmail.com
     ports:
       - "3001:3001"
 
