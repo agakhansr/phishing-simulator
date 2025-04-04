@@ -8,6 +8,7 @@ import {
 } from './schemas/phishing-attempt.schema';
 import { SendPhishingDto } from './dto/send-phishing.dto';
 import { EmailService } from './email.service';
+import { PhishingStatusGateway } from '../shared/gateways/phishing-status.gateway';
 
 @Injectable()
 export class PhishingService {
@@ -17,6 +18,7 @@ export class PhishingService {
     @InjectModel(PhishingAttempt.name)
     private phishingAttemptModel: Model<PhishingAttempt>,
     private emailService: EmailService,
+    private phishingStatusGateway: PhishingStatusGateway,
   ) {}
 
   async sendPhishingEmail(
@@ -78,6 +80,8 @@ export class PhishingService {
     phishingAttempt.status = PhishingAttemptStatus.CLICKED;
     phishingAttempt.clickedAt = new Date();
     await phishingAttempt.save();
+
+    this.phishingStatusGateway.notifyStatusChange(phishingAttempt);
 
     this.logger.log(
       `Phishing link clicked for email: ${phishingAttempt.email}`,
