@@ -34,6 +34,8 @@ export class PhishingService {
       metadata: sendPhishingDto.metadata || {},
     });
 
+    this.phishingStatusGateway.notifyStatusChange(phishingAttempt);
+
     try {
       const { subject, html } = this.emailService.getPhishingTemplate(
         sendPhishingDto.templateId,
@@ -46,6 +48,8 @@ export class PhishingService {
       phishingAttempt.sentAt = new Date();
       await phishingAttempt.save();
 
+      this.phishingStatusGateway.notifyStatusChange(phishingAttempt);
+
       this.logger.log(
         `Phishing email sent successfully to ${sendPhishingDto.email}`,
       );
@@ -57,6 +61,7 @@ export class PhishingService {
       );
 
       phishingAttempt.status = PhishingAttemptStatus.FAILED;
+      this.phishingStatusGateway.notifyStatusChange(phishingAttempt);
       await phishingAttempt.save();
 
       throw error;

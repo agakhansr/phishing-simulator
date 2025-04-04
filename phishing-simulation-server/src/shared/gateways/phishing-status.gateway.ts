@@ -38,6 +38,7 @@ export class PhishingStatusGateway
       status: phishingAttempt.status,
       email: phishingAttempt.email,
       clickedAt: phishingAttempt.clickedAt,
+      templateId: phishingAttempt.templateId,
     });
   }
 }
